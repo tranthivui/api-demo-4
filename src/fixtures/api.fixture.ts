@@ -1,8 +1,8 @@
-import { APIRequestContext, request } from "playwright";
+import { APIRequestContext, request } from "@playwright/test";
 import { HomePage } from "../pages/HomePage.page";
 import {test as base, expect, request as playwrightRequest} from "@playwright/test";
 import { Book, GetBookRes } from "../type/book";
-import { BASE_URL } from "../config/path";
+import { BASE_URL, GET_BOOK } from "../config/path";
 
 export {test as base, request as playwrightRequest} from "@playwright/test";
 
@@ -21,7 +21,7 @@ export const test=base.extend<HomeAndAPIFixture>({
         const homePage=new HomePage(page);
         await homePage.goto();
         await expect(homePage.loginBtn).toBeEnabled();
-        const getBookRes =await request.get("/BookStore/v1/Books");
+        const getBookRes =await request.get(GET_BOOK);
         expect(getBookRes.status()).toEqual(200);
         const getBookData : GetBookRes=await getBookRes.json();
         const listBooks : Book[]=getBookData.books;
