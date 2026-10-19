@@ -1,4 +1,3 @@
-import { APIRequestContext, request } from "@playwright/test";
 import { HomePage } from "../pages/HomePage.page";
 import {test as base, expect, request as playwrightRequest} from "@playwright/test";
 import { Book, GetBookRes } from "../type/book";
