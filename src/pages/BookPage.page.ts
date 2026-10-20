@@ -5,13 +5,13 @@ export class BookPage{
     readonly page: Page;
     readonly listBook: Locator;
     readonly loginBtn: Locator;
-    readonly showPagenumber: Locator;
+    readonly pageInfo: Locator;
 
     constructor(page: Page){
         this.page=page;
         this.listBook=this.page.getByRole("table").getByRole("link");
         this.loginBtn=this.page.getByRole("button",{name: "Login"});
-        this.showPagenumber=this.page.getByRole("button",{name:"Previous"}).locator("xpath=following-sibling::span");
+        this.pageInfo=this.page.getByText(/^Page \d+ of \d+$/);
     }
 
     async getBookTitke(book: Locator): Promise<string>{
