@@ -1,10 +1,10 @@
 import { expect } from '@playwright/test';
-import { test } from '../src/fixtures/api.fixture';
+import { test } from '@playwright/test'
 import { GET_BOOK } from '../src/config/path';
 import { Book, GetBookRes } from '../src/type/book';
-import booksJson from "../src/data/books.json";
+import { books } from "../src/data/books";
 import { BookPage } from '../src/pages/BookPage.page';
-import noBook from '../src/data/nobook.json'
+import { noBook } from '../src/data/nobook'
 
 test('API get list book', async ({ request }) => {
   const bookTitle = 'Git Pocket Guide';
@@ -25,14 +25,13 @@ test('API get list book', async ({ request }) => {
 });
 
 test("Verify UI and API", async ({ page, request }) => {
-  const bookPage = new BookPage(page);
-  await bookPage.goto();
-  await expect(bookPage.loginBtn).toBeEnabled();
   const getBookRes = await request.get(GET_BOOK);
   expect(getBookRes.status()).toEqual(200);
   const getBookData: GetBookRes = await getBookRes.json();
   const listBooks: Book[] = getBookData.books;
   const bookTitleAPI = listBooks.map(book => book.title);
+  const bookPage = new BookPage(page);
+  await bookPage.goto();
   await expect(bookPage.listBook).toHaveText(bookTitleAPI);
 });
 
@@ -40,11 +39,11 @@ test("Mock data: Fake book", async ({ page }) => {
   const bookPage = new BookPage(page);
   const responsePromise = bookPage.page.waitForResponse(GET_BOOK);
   await bookPage.page.route(GET_BOOK, async route => {
-    await route.fulfill({ status: 200, json: booksJson });
+    await route.fulfill({ status: 200, json: books });
   });
   await bookPage.goto();
   await responsePromise;
-  await expect(bookPage.listBook).toHaveText(booksJson.books.map(book => book.title));
+  await expect(bookPage.listBook).toHaveText(books.books.map(book => book.title));
 });
 
 

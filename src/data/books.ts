@@ -1,4 +1,6 @@
-{
+import { GetBookRes } from "../type/book";
+
+export const books={
     "books": [
         {
             "isbn": "9781449325862",
@@ -23,4 +25,4 @@
             "website": "http://www.addyosmani.com/resources/essentialjsdesignpatterns/book/"
         }
     ]
-}
+} satisfies GetBookRes;
